@@ -1,4 +1,6 @@
-# ADAS Homologation Scenario Toolkit
+# ADAS Homologation Scenario Toolkit / ADAS 法规认证场景工程工具箱
+
+English | [中文说明](#中文说明)
 
 `adas-homologation-scenario-toolkit` is a personal engineering repository for ADAS homologation, proving-ground testing, certification testing, and NCAP-oriented scenario validation workflows.
 
@@ -245,3 +247,204 @@ cat docs/demo_walkthrough.md
 - Add report templates aligned with specific internal test review gates.
 - Expand CI checks for template consistency and report schema validation.
 - Add optional submodule instructions for users who want to keep upstream scenario repositories outside the main source tree.
+
+## 中文说明
+
+`adas-homologation-scenario-toolkit` 是一个面向 ADAS 法规测试场、认证测试和 NCAP 场景验证的个人工程方法仓库。
+
+它不是法规知识大全，也不是完整仿真器或第三方场景库集合。这个仓库的重点是把公开法规/协议、外部场景库、执行工具、测试记录、结果汇总和问题闭环连接成一个清晰、可验证、适合面试展示的工程流程。
+
+核心工作流：
+
+```text
+法规/协议
+    |
+    v
+场景映射
+    |
+    v
+场景索引与参数提取
+    |
+    v
+执行封装
+    |
+    v
+结果汇总
+    |
+    v
+问题闭环与回归验证
+```
+
+### 为什么做这个项目
+
+ADAS 测试工作通常会横跨法规协议、场景文件、仿真工具、测试场执行记录、问题跟踪和回归验证。很多信息容易分散在 Excel、仿真工程、日志目录和测试报告里。
+
+本项目展示的是一个工程化整理方法：不声称拥有第三方标准、场景库或仿真器，而是在它们之间建立可追踪、可复用、可自动化的工作流。
+
+### 这个项目解决什么问题
+
+- 将法规或 NCAP 协议条目映射到可执行的测试场景意图。
+- 对外部场景库或本地场景目录进行索引，而不把第三方整库复制进本仓库。
+- 提取 OpenSCENARIO 文件中的参数、Storyboard 名称和 Entity 名称。
+- 对 `.xosc` / `.xml` 做基础 XML 合法性检查，并支持用户自带 XSD schema 做可选验证。
+- 生成 esmini dry-run 执行计划，也支持受保护的 `--execute` 执行模式。
+- 汇总执行结果、场景信息和 issue log，输出 CSV / Markdown 报告。
+- 提供测试记录、问题闭环、外部源审查和回归验证模板。
+
+### 仓库结构
+
+```text
+.
+├── assets/              # 图表或轻量资源预留
+├── docs/                # 方法论、demo 和上游接入流程
+├── examples/            # 最小化 synthetic 示例数据
+├── reports/             # 生成报告目录，默认忽略生成物
+├── scenario_map/        # 法规到场景映射模板
+├── templates/           # 测试记录、issue、回归和外部源审查模板
+├── third_party/         # 第三方项目引用和边界说明
+├── tools/               # Python 工作流工具
+└── third_party_manifest.yaml
+```
+
+### 主要能力
+
+1. **法规到场景映射**  
+   `scenario_map/` 中的 CSV 模板用于记录 regulation family、protocol name、scenario ID、关键参数、触发条件、预期行为、通过标准、记录数据和上游引用。
+
+2. **场景索引**  
+   `tools/build_scenario_index.py` 扫描 `.xosc`、`.xml`、`.json`、`.yaml` 文件，生成统一索引：
+   - `reports/scenario_index.csv`
+   - `reports/scenario_index.md`
+
+3. **OpenSCENARIO 参数提取**  
+   `tools/extract_xosc_params.py` 提取：
+   - `ParameterDeclaration`
+   - Story / Act / Maneuver / Event 名称
+   - `ScenarioObject` / `EntitySelection` 名称
+
+4. **XOSC / XML 验证**  
+   `tools/validate_xosc_schema.py` 默认执行 XML well-formedness 检查；如果用户提供 `--schema` 并安装可选依赖 `lxml`，可进行 XSD validation。
+
+5. **esmini 执行封装**  
+   `tools/run_esmini_batch.py` 默认生成 dry-run 命令计划。使用 `--execute` 时，会检查 `--esmini-path` 是否存在且可执行，并输出执行摘要。
+
+6. **结果汇总与闭环**  
+   `tools/export_result_summary.py` 将场景信息、执行结果和 issue 记录合并，输出结果摘要，并保留 open issue / closure status。
+
+7. **上游接入规范**  
+   `third_party_manifest.yaml` 和 `docs/upstream_integration_workflow.md` 说明如何把 openMSL、Vector、esmini、BeamNG 等上游项目放在仓库外部，通过本仓库工具扫描和引用。
+
+8. **完整 synthetic demo**  
+   `docs/demo_walkthrough.md` 展示：
+
+   ```text
+   法规条目 -> 场景 -> 执行计划 -> 结果 -> issue -> regression
+   ```
+
+   demo 使用本仓库自造的 synthetic 示例，不复制第三方真实场景文件。
+
+### 第三方项目如何接入
+
+本仓库参考并对接以下上游项目，但不直接复制完整源码或场景库：
+
+- [openMSL/sl-3-1-osc-alks-scenarios](https://github.com/openMSL/sl-3-1-osc-alks-scenarios)：ALKS OpenSCENARIO 场景参考。
+- [vectorgrp/OSC-NCAP-scenarios](https://github.com/vectorgrp/OSC-NCAP-scenarios)：Euro NCAP OpenSCENARIO / OpenDRIVE 场景参考。
+- [esmini/esmini](https://github.com/esmini/esmini)：OpenSCENARIO 执行后端候选。
+- [BeamNG/BeamNG_NCAP_Tests](https://github.com/BeamNG/BeamNG_NCAP_Tests)：BeamNG.tech NCAP 测试实现参考。
+
+推荐做法是将这些仓库 clone 到主仓库外部，例如：
+
+```text
+external-workspace/
+├── sl-3-1-osc-alks-scenarios/
+├── OSC-NCAP-scenarios/
+├── esmini/
+└── BeamNG_NCAP_Tests/
+```
+
+然后用本仓库工具对外部路径进行索引、参数提取、验证和执行计划生成。
+
+### 许可证和边界
+
+本仓库原创内容默认使用 MIT License。
+
+第三方仓库、标准、schema、场景文件和仿真器代码仍然遵循各自许可证和使用条款。本仓库不改变这些许可证，也不提供法律意见。任何商业、科研、发布或认证用途，都应直接核对上游许可证和标准所有者要求。
+
+本仓库明确不包含：
+
+- 第三方完整场景库
+- 仿真器源码或二进制
+- ASAM 标准正文或 schema 包
+- 官方认证测试结论
+
+### 示例用法
+
+构建 synthetic 示例索引：
+
+```bash
+python3 tools/build_scenario_index.py examples
+```
+
+提取 OpenSCENARIO 参数：
+
+```bash
+python3 tools/extract_xosc_params.py examples
+```
+
+验证 XML 合法性：
+
+```bash
+python3 tools/validate_xosc_schema.py --input examples
+```
+
+生成 esmini dry-run 执行计划：
+
+```bash
+python3 tools/run_esmini_batch.py --input examples/example_scenario_list.csv --dry-run
+```
+
+在单独安装 esmini 后执行：
+
+```bash
+python3 tools/run_esmini_batch.py \
+  --input examples/example_scenario_list.csv \
+  --esmini-path /path/to/esmini \
+  --execute
+```
+
+生成结果汇总：
+
+```bash
+python3 tools/export_result_summary.py \
+  --scenario-index examples/example_scenario_list.csv \
+  --results examples/example_result_input.csv \
+  --issues examples/example_issue_log.csv
+```
+
+查看完整 demo：
+
+```bash
+cat docs/demo_walkthrough.md
+```
+
+### 当前已实现内容
+
+- 法规到场景映射模板
+- 第三方接入 manifest
+- 上游外部 checkout 工作流
+- 场景索引工具
+- OpenSCENARIO 参数提取工具
+- XOSC / XML validation 工具
+- esmini dry-run 与受保护执行模式
+- 结果汇总工具
+- 测试执行、issue、回归、外部源审查模板
+- synthetic end-to-end demo
+- GitHub Actions CI
+
+### 后续扩展方向
+
+- 增强 OpenDRIVE 元数据提取。
+- 增加更多真实外部场景库的 metadata scan 示例。
+- 针对 esmini、BeamNG.tech 等执行环境设计 adapter profile。
+- 增加报告 schema consistency 检查。
+- 增加更接近企业测试评审流程的报告模板。
