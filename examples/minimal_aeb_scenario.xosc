@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSCENARIO>
+  <FileHeader revMajor="1" revMinor="0" date="2026-04-21T00:00:00" description="Synthetic lead vehicle braking example" author="adas-homologation-scenario-toolkit"/>
+  <ParameterDeclarations>
+    <ParameterDeclaration name="ego_speed_kph" parameterType="double" value="50"/>
+    <ParameterDeclaration name="target_initial_distance_m" parameterType="double" value="40"/>
+    <ParameterDeclaration name="target_deceleration_mps2" parameterType="double" value="-4.0"/>
+  </ParameterDeclarations>
+  <CatalogLocations/>
+  <RoadNetwork/>
+  <Entities>
+    <ScenarioObject name="EgoVehicle">
+      <Vehicle name="ego_vehicle" vehicleCategory="car"/>
+    </ScenarioObject>
+    <ScenarioObject name="LeadVehicle">
+      <Vehicle name="lead_vehicle" vehicleCategory="car"/>
+    </ScenarioObject>
+  </Entities>
+  <Storyboard>
+    <Story name="LeadVehicleBrakingStory">
+      <Act name="ApproachAndBrakeAct">
+        <ManeuverGroup name="LeadVehicleManeuverGroup" maximumExecutionCount="1">
+          <Actors selectTriggeringEntities="false">
+            <EntityRef entityRef="LeadVehicle"/>
+          </Actors>
+          <Maneuver name="LeadVehicleBrakeManeuver">
+            <Event name="LeadVehicleBrakeEvent" priority="overwrite"/>
+          </Maneuver>
+        </ManeuverGroup>
+      </Act>
+    </Story>
+  </Storyboard>
+</OpenSCENARIO>

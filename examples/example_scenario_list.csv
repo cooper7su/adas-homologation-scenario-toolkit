@@ -1,0 +1,3 @@
+scenario_id,scenario_name,file_path,source_project,possible_protocol,remarks
+SCN-001,Synthetic lead vehicle braking,examples/minimal_aeb_scenario.xosc,local_synthetic_example,AEB candidate,Minimal file for tool demonstration only
+SCN-002,Synthetic NCAP-style result placeholder,examples/minimal_aeb_scenario.xosc,local_synthetic_example,NCAP candidate,Reuses the same synthetic file to demonstrate batch planning

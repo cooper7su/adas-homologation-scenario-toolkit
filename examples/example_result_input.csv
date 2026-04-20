@@ -1,0 +1,3 @@
+scenario_id,run_id,scenario_name,execution_status,pass_fail,measured_result,log_path,tester_notes
+SCN-001,RUN-001,Synthetic lead vehicle braking,completed,Pass,"minimum_distance=1.8m; collision=false",logs/SCN-001,No abnormal behavior in synthetic dry-run record
+SCN-002,RUN-002,Synthetic NCAP-style result placeholder,completed,Fail,"impact_speed=4.2m/s; collision=true",logs/SCN-002,Example failure used to demonstrate issue linkage

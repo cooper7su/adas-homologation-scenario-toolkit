@@ -1,0 +1,2 @@
+issue_id,scenario_id,run_id,title,severity,detected_in_version,owner,responsibility_domain,status,root_cause,fix_version,closure_evidence,regression_required,regression_result,remarks
+ISSUE-001,SCN-001,RUN-001,Example late brake request,Medium,SW_BUILD_X,ADAS_function,Perception/Planning/Control,Open,TBD,TBD,TBD,Yes,TBD,Replace this row with project issue data

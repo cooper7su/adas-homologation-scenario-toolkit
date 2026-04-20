@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Generated workflow outputs
+logs/
+reports/*.csv
+reports/*.md
+!reports/.gitkeep
+
+# Local simulator or upstream checkouts
+third_party/*/
+!third_party/README.md
+
+# OS and editor noise
+.DS_Store
+.idea/
+.vscode/
+*.swp

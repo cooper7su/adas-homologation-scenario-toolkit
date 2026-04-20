@@ -1,0 +1,2 @@
+issue_id,scenario_id,run_id,title,severity,owner,responsibility_domain,status,closure_notes
+ISSUE-001,SCN-002,RUN-002,Synthetic impact not mitigated,Medium,ADAS_function,Planning,Open,Pending parameter and control review

@@ -1,0 +1,2 @@
+# Current tools use only the Python standard library.
+# Recommended Python version: 3.10 or newer.

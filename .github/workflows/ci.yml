@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate Python syntax
+        run: |
+          python -B - <<'PY'
+          import ast
+          from pathlib import Path
+
+          for path in sorted(Path("tools").glob("*.py")):
+              ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+              print(f"syntax ok: {path}")
+          PY
+
+      - name: Run example workflow
+        run: |
+          mkdir -p /tmp/adas_ci/scenario_index /tmp/adas_ci/result_summary
+          python -B tools/build_scenario_index.py examples --output-dir /tmp/adas_ci/scenario_index
+          python -B tools/extract_xosc_params.py examples --output /tmp/adas_ci/xosc_parameter_summary.csv
+          python -B tools/run_esmini_batch.py \
+            --input examples/example_scenario_list.csv \
+            --dry-run \
+            --output-log-dir /tmp/adas_ci/logs \
+            --report /tmp/adas_ci/run_plan.md
+          python -B tools/export_result_summary.py \
+            --scenario-index examples/example_scenario_list.csv \
+            --results examples/example_result_input.csv \
+            --issues examples/example_issue_log.csv \
+            --output-dir /tmp/adas_ci/result_summary
