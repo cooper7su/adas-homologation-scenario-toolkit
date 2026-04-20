@@ -25,7 +25,7 @@ result summary
 issue closure and regression verification
 ```
 
-The repository also includes a Codex Skill at `skills/adas-homologation-scenario-workflow/SKILL.md`. The skill guides future AI agents through the ADAS scenario engineering workflow using this repository's existing tools, templates, examples, and third-party boundary rules. It does not include third-party scenario files, regulation full text, schema packages, or simulator binaries.
+A companion Codex Skill is maintained in a separate repository: [adas-homologation-scenario-workflow-skill](https://github.com/cooper7su/adas-homologation-scenario-workflow-skill). The skill guides future AI agents through this toolkit's workflow using the repository's tools, templates, examples, and third-party boundary rules. It does not include third-party scenario files, regulation full text, schema packages, or simulator binaries.
 
 ## Why This Project Exists
 
@@ -81,7 +81,6 @@ This project demonstrates a practical method to connect those artifacts without 
 ├── examples/            # Small self-contained example inputs
 ├── reports/             # Generated reports, ignored except .gitkeep
 ├── scenario_map/        # Regulation-to-scenario mapping templates
-├── skills/              # Codex Skill for AI-assisted workflow execution
 ├── templates/           # Test execution, issue, and regression templates
 ├── third_party/         # Upstream project references and integration boundaries
 ├── tools/               # Python workflow utilities
@@ -161,9 +160,9 @@ regulation item -> scenario -> execution plan -> result -> issue -> regression
 
 The demo uses only local synthetic files and does not copy third-party scenario content.
 
-### 9. Codex Skill for AI Agents
+### 9. Companion Codex Skill for AI Agents
 
-`skills/adas-homologation-scenario-workflow/SKILL.md` turns the repository methodology into a reusable Codex Skill. It instructs future AI agents to:
+[adas-homologation-scenario-workflow-skill](https://github.com/cooper7su/adas-homologation-scenario-workflow-skill) turns this repository's methodology into a reusable Codex Skill. It instructs future AI agents to:
 
 - read the existing repository documentation before acting,
 - use `tools/` scripts for workflow automation,
@@ -173,7 +172,7 @@ The demo uses only local synthetic files and does not copy third-party scenario 
 - keep third-party scenario libraries, standards text, schema packages, and simulator binaries out of the main repository,
 - label generated evidence as synthetic, external metadata, or official evidence.
 
-The skill is a workflow guide only. It does not redistribute third-party content or official regulation text.
+The skill is maintained outside this main toolkit repository. It is a workflow guide only and does not redistribute third-party content or official regulation text.
 
 ## Third-Party Project Integration
 
@@ -205,7 +204,7 @@ Third-party repositories, standards, schemas, scenario files, and simulator code
 - Test execution, issue tracking, review, checklist, external source review, and regression templates.
 - Small synthetic example data under `examples/`.
 - Synthetic end-to-end demo artifacts and a sample summary report.
-- A Codex Skill under `skills/adas-homologation-scenario-workflow/` for AI-assisted ADAS scenario workflow execution.
+- A companion Codex Skill maintained separately at [adas-homologation-scenario-workflow-skill](https://github.com/cooper7su/adas-homologation-scenario-workflow-skill).
 - A minimal GitHub Actions workflow that validates Python syntax and runs the example workflow.
 
 ## Example Usage
@@ -318,7 +317,6 @@ ADAS 测试工作通常会横跨法规协议、场景文件、仿真工具、测
 ├── examples/            # 最小化 synthetic 示例数据
 ├── reports/             # 生成报告目录，默认忽略生成物
 ├── scenario_map/        # 法规到场景映射模板
-├── skills/              # Codex Skill，用于 AI 代理执行场景工作流
 ├── templates/           # 测试记录、issue、回归和外部源审查模板
 ├── third_party/         # 第三方项目引用和边界说明
 ├── tools/               # Python 工作流工具
@@ -362,10 +360,10 @@ ADAS 测试工作通常会横跨法规协议、场景文件、仿真工具、测
 
    demo 使用本仓库自造的 synthetic 示例，不复制第三方真实场景文件。
 
-9. **Codex Skill**  
-   `skills/adas-homologation-scenario-workflow/SKILL.md` 将本仓库的方法论、工具链、模板、第三方边界和 demo 工作流沉淀成可复用的 AI 代理执行指南。它指导 Codex 优先读取现有文档，调用 `tools/`，使用 `templates/` 和 `scenario_map/`，通过 `third_party_manifest.yaml` 判断外部接入边界，并默认使用 esmini dry-run。
+9. **配套 Codex Skill**  
+   [adas-homologation-scenario-workflow-skill](https://github.com/cooper7su/adas-homologation-scenario-workflow-skill) 将本仓库的方法论、工具链、模板、第三方边界和 demo 工作流沉淀成可复用的 AI 代理执行指南。它指导 Codex 优先读取现有文档，调用 `tools/`，使用 `templates/` 和 `scenario_map/`，通过 `third_party_manifest.yaml` 判断外部接入边界，并默认使用 esmini dry-run。
 
-   该 Skill 不包含第三方场景文件、法规全文、ASAM schema 包或仿真器二进制。
+   该 Skill 已拆分到独立仓库，不包含第三方场景文件、法规全文、ASAM schema 包或仿真器二进制。
 
 ### 第三方项目如何接入
 
@@ -463,7 +461,7 @@ cat docs/demo_walkthrough.md
 - 结果汇总工具
 - 测试执行、issue、回归、外部源审查模板
 - synthetic end-to-end demo
-- Codex Skill：`skills/adas-homologation-scenario-workflow/SKILL.md`
+- 配套 Codex Skill 独立仓库：[adas-homologation-scenario-workflow-skill](https://github.com/cooper7su/adas-homologation-scenario-workflow-skill)
 - GitHub Actions CI
 
 ### 后续扩展方向
