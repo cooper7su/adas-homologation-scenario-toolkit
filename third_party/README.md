@@ -4,6 +4,12 @@ This directory documents how external scenario repositories, simulators, and imp
 
 For local experiments, users may place external checkouts outside this repository, or use ignored subdirectories under `third_party/` when appropriate. If an upstream checkout is used, keep its license file and source URL with the local copy.
 
+See also:
+
+- `third_party_manifest.yaml` for structured upstream metadata and integration boundaries.
+- `docs/upstream_integration_workflow.md` for the recommended external checkout workflow.
+- `examples/external_sources.example.yaml` for placeholder local path configuration.
+
 ## openMSL/sl-3-1-osc-alks-scenarios
 
 - Repository: `openMSL/sl-3-1-osc-alks-scenarios`

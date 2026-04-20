@@ -19,6 +19,9 @@ from typing import Any, Iterable
 
 
 SUPPORTED_EXTENSIONS = {".xosc", ".xml", ".json", ".yaml", ".yml"}
+IGNORED_FILE_NAMES = {
+    "third_party_manifest.yaml",
+}
 DEFAULT_FIELDS = [
     "scenario_id",
     "file_name",
@@ -240,7 +243,11 @@ def find_scenario_files(input_dir: Path) -> list[Path]:
     return sorted(
         path
         for path in input_dir.rglob("*")
-        if path.is_file() and path.suffix.lower() in SUPPORTED_EXTENSIONS
+        if path.is_file()
+        and path.suffix.lower() in SUPPORTED_EXTENSIONS
+        and path.name not in IGNORED_FILE_NAMES
+        and not path.name.endswith(".example.yaml")
+        and not path.name.endswith(".example.yml")
     )
 
 

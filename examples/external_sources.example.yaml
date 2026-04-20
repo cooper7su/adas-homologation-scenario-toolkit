@@ -1,0 +1,47 @@
+# Example external source configuration.
+#
+# Copy this file to a local, untracked configuration file if needed.
+# Paths are examples only and should point to checkouts outside this repository.
+
+schema_version: "1.0"
+workspace_root: "../external-workspace"
+
+sources:
+  - id: "openmsl_alks"
+    repo_name: "openMSL/sl-3-1-osc-alks-scenarios"
+    url: "https://github.com/openMSL/sl-3-1-osc-alks-scenarios"
+    local_path: "../external-workspace/sl-3-1-osc-alks-scenarios"
+    role: "ALKS OpenSCENARIO scenario source reference"
+    license_note: "See upstream repository and third_party_manifest.yaml before using generated metadata."
+    enabled_for:
+      - "scenario_index"
+      - "xosc_parameter_extraction"
+
+  - id: "vector_osc_ncap"
+    repo_name: "vectorgrp/OSC-NCAP-scenarios"
+    url: "https://github.com/vectorgrp/OSC-NCAP-scenarios"
+    local_path: "../external-workspace/OSC-NCAP-scenarios"
+    role: "Euro NCAP OpenSCENARIO/OpenDRIVE scenario source reference"
+    license_note: "See upstream repository and third_party_manifest.yaml before using generated metadata."
+    enabled_for:
+      - "scenario_index"
+      - "xosc_parameter_extraction"
+
+  - id: "esmini"
+    repo_name: "esmini/esmini"
+    url: "https://github.com/esmini/esmini"
+    local_path: "../external-workspace/esmini"
+    executable_path: "../external-workspace/esmini/bin/esmini"
+    role: "OpenSCENARIO execution backend reference"
+    license_note: "Install or build externally; do not vendor source or binaries in this repository."
+    enabled_for:
+      - "dry_run_command_generation"
+
+  - id: "beamng_ncap_tests"
+    repo_name: "BeamNG/BeamNG_NCAP_Tests"
+    url: "https://github.com/BeamNG/BeamNG_NCAP_Tests"
+    local_path: "../external-workspace/BeamNG_NCAP_Tests"
+    role: "BeamNG.tech NCAP implementation reference"
+    license_note: "BeamNG.tech product usage is separate from the upstream repository license."
+    enabled_for:
+      - "adapter_design_reference"

@@ -37,6 +37,7 @@ This project demonstrates a practical method to connect those artifacts without 
 - Generate dry-run execution plans for esmini-based scenario playback.
 - Merge execution results, scenario metadata, and issue logs into summary reports.
 - Provide practical templates for test-day records, issue closure, and regression verification.
+- Document upstream integration boundaries through a manifest and external checkout workflow.
 
 ## Architecture
 
@@ -77,7 +78,8 @@ This project demonstrates a practical method to connect those artifacts without 
 ├── scenario_map/        # Regulation-to-scenario mapping templates
 ├── templates/           # Test execution, issue, and regression templates
 ├── third_party/         # Upstream project references and integration boundaries
-└── tools/               # Python workflow utilities
+├── tools/               # Python workflow utilities
+└── third_party_manifest.yaml
 ```
 
 ## Main Capabilities
@@ -125,6 +127,22 @@ Output:
 
 The summary highlights pass/fail status, open issue count, and closure status.
 
+### 6. Upstream Integration Manifest
+
+`third_party_manifest.yaml` records each referenced upstream repository, its role, license boundary, recommended local path, allowed integration mode, and content that must not be copied into this repository.
+
+`docs/upstream_integration_workflow.md` explains how to keep upstream checkouts outside the main repository and run this toolkit against those external paths.
+
+### 7. End-to-End Synthetic Demo
+
+`docs/demo_walkthrough.md` shows a complete synthetic workflow:
+
+```text
+regulation item -> scenario -> execution plan -> result -> issue -> regression
+```
+
+The demo uses only local synthetic files and does not copy third-party scenario content.
+
 ## Third-Party Project Integration
 
 This repository references the following upstream projects as external inputs or integration targets:
@@ -150,9 +168,11 @@ Third-party repositories, standards, schemas, scenario files, and simulator code
 - Mapping and catalog templates under `scenario_map/`.
 - Methodology document under `docs/`.
 - Third-party integration boundary document under `third_party/`.
+- Upstream integration manifest and external checkout workflow documentation.
 - Python utilities for indexing, OpenSCENARIO parameter extraction, esmini dry-run planning, and result summary export.
 - Test execution, issue tracking, review, checklist, and regression templates.
 - Small synthetic example data under `examples/`.
+- Synthetic end-to-end demo artifacts and a sample summary report.
 - A minimal GitHub Actions workflow that validates Python syntax and runs the example workflow.
 
 ## Example Usage
@@ -182,6 +202,12 @@ python3 tools/export_result_summary.py \
   --scenario-index examples/example_scenario_list.csv \
   --results examples/example_result_input.csv \
   --issues examples/example_issue_log.csv
+```
+
+Review the full synthetic demo workflow:
+
+```bash
+cat docs/demo_walkthrough.md
 ```
 
 ## Future Extensions

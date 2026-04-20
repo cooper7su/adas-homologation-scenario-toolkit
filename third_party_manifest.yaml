@@ -1,0 +1,100 @@
+# External upstream references for adas-homologation-scenario-toolkit.
+#
+# This file is a manifest for integration planning only. It does not vendor,
+# mirror, or redistribute upstream repositories. Keep actual upstream checkouts
+# outside this repository or inside ignored third_party/*/ directories.
+
+schema_version: "1.0"
+project: "adas-homologation-scenario-toolkit"
+integration_policy:
+  default_mode: "external_checkout"
+  source_code_boundary: "Do not copy full upstream source trees, scenario libraries, simulator binaries, or standards documents into this repository."
+  attribution_rule: "Record upstream URL, license, commit or release tag, and local checkout path before generating indexes or reports."
+
+upstreams:
+  - repo_name: "openMSL/sl-3-1-osc-alks-scenarios"
+    url: "https://github.com/openMSL/sl-3-1-osc-alks-scenarios"
+    license: "MPL-2.0 for the corresponding OpenSCENARIO bundle, with ASAM schema license terms and Apache-2.0 checker-related components noted upstream."
+    role: "External ALKS-oriented OpenSCENARIO scenario source reference."
+    category: "scenario_library_reference"
+    recommended_local_path: "../external-workspace/sl-3-1-osc-alks-scenarios"
+    allowed_integration_modes:
+      - "external_checkout"
+      - "ignored_local_checkout_under_third_party"
+      - "generated_metadata_index"
+      - "documentation_reference"
+    not_copied_boundary:
+      - "OpenSCENARIO files"
+      - "OpenDRIVE files"
+      - "variation files"
+      - "schemas"
+      - "validation tooling"
+      - "full repository history"
+    toolkit_usage:
+      - "Run tools/build_scenario_index.py against the external checkout."
+      - "Run tools/extract_xosc_params.py against the external checkout."
+      - "Record upstream commit in generated reports."
+
+  - repo_name: "vectorgrp/OSC-NCAP-scenarios"
+    url: "https://github.com/vectorgrp/OSC-NCAP-scenarios"
+    license: "MPL-2.0 for OpenSCENARIO XML and OpenDRIVE files, with ASAM schema license terms noted upstream."
+    role: "External Euro NCAP OpenSCENARIO/OpenDRIVE scenario source reference."
+    category: "scenario_library_reference"
+    recommended_local_path: "../external-workspace/OSC-NCAP-scenarios"
+    allowed_integration_modes:
+      - "external_checkout"
+      - "ignored_local_checkout_under_third_party"
+      - "generated_metadata_index"
+      - "documentation_reference"
+    not_copied_boundary:
+      - "OpenSCENARIO files"
+      - "OpenDRIVE files"
+      - "catalog files"
+      - "variation files"
+      - "generated road networks"
+      - "protocol-derived scenario tables"
+    toolkit_usage:
+      - "Run tools/build_scenario_index.py against the external checkout."
+      - "Use scenario_map templates to link NCAP scenario intent to external file references."
+      - "Do not treat generated metadata as official protocol interpretation."
+
+  - repo_name: "esmini/esmini"
+    url: "https://github.com/esmini/esmini"
+    license: "MPL-2.0."
+    role: "Candidate OpenSCENARIO execution backend."
+    category: "execution_backend"
+    recommended_local_path: "../external-workspace/esmini"
+    allowed_integration_modes:
+      - "external_executable_reference"
+      - "documentation_reference"
+      - "dry_run_command_generation"
+    not_copied_boundary:
+      - "source code"
+      - "binaries"
+      - "build artifacts"
+      - "example assets"
+      - "dependency tree"
+    toolkit_usage:
+      - "Install or build esmini separately."
+      - "Pass the local executable path through tools/run_esmini_batch.py --esmini-path."
+      - "Keep dry-run planning as the default safe mode."
+
+  - repo_name: "BeamNG/BeamNG_NCAP_Tests"
+    url: "https://github.com/BeamNG/BeamNG_NCAP_Tests"
+    license: "MIT for the upstream repository; BeamNG.tech product usage is governed by separate product terms."
+    role: "Simulator-specific NCAP test implementation reference."
+    category: "test_implementation_reference"
+    recommended_local_path: "../external-workspace/BeamNG_NCAP_Tests"
+    allowed_integration_modes:
+      - "external_checkout"
+      - "documentation_reference"
+      - "adapter_design_reference"
+    not_copied_boundary:
+      - "Python package source"
+      - "BeamNG scenario assets"
+      - "controller implementations"
+      - "simulator setup scripts"
+      - "BeamNG.tech product content"
+    toolkit_usage:
+      - "Use as a reference when designing simulator-specific adapters."
+      - "Keep BeamNG.tech execution projects outside this repository."

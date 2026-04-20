@@ -13,6 +13,7 @@ logs/
 reports/*.csv
 reports/*.md
 !reports/.gitkeep
+!reports/sample_result_summary.md
 
 # Local simulator or upstream checkouts
 third_party/*/
