@@ -34,7 +34,8 @@ This project demonstrates a practical method to connect those artifacts without 
 - Map regulation or protocol items to scenario-level test intent.
 - Index scenario files from external repositories or local workspaces without copying them into this repository.
 - Extract basic OpenSCENARIO parameters for review and coverage tracking.
-- Generate dry-run execution plans for esmini-based scenario playback.
+- Validate OpenSCENARIO/XML well-formedness and optionally validate against a user-provided XSD schema.
+- Generate dry-run execution plans or guarded execution summaries for esmini-based scenario playback.
 - Merge execution results, scenario metadata, and issue logs into summary reports.
 - Provide practical templates for test-day records, issue closure, and regression verification.
 - Document upstream integration boundaries through a manifest and external checkout workflow.
@@ -111,14 +112,24 @@ Output:
 
 ### 4. esmini Batch Planning
 
-`tools/run_esmini_batch.py` reads a scenario list and generates a dry-run execution plan for esmini. It does not assume esmini is installed and does not execute scenarios in the current minimal version.
+`tools/run_esmini_batch.py` reads a scenario list and generates a dry-run execution plan for esmini. Dry-run is the default mode. If `--execute` is provided, the script checks that `--esmini-path` resolves to an executable, runs each planned command, captures return codes, and writes execution summary files.
 
 Output:
 
 - `reports/run_plan.md`
 - per-scenario log directory placeholders under `logs/`
+- `reports/esmini_execution_summary.csv` and `.md` when `--execute` is used
 
-### 5. Result Summary and Closure
+### 5. OpenSCENARIO Validation
+
+`tools/validate_xosc_schema.py` validates `.xosc` and `.xml` files. By default it performs XML well-formedness checks. If users provide `--schema` and install optional `lxml`, it can also perform XSD validation.
+
+Output:
+
+- `reports/xosc_validation_report.csv`
+- `reports/xosc_validation_report.md`
+
+### 6. Result Summary and Closure
 
 `tools/export_result_summary.py` combines scenario metadata, result input, and issue records into:
 
@@ -127,13 +138,15 @@ Output:
 
 The summary highlights pass/fail status, open issue count, and closure status.
 
-### 6. Upstream Integration Manifest
+### 7. Upstream Integration Manifest
 
 `third_party_manifest.yaml` records each referenced upstream repository, its role, license boundary, recommended local path, allowed integration mode, and content that must not be copied into this repository.
 
 `docs/upstream_integration_workflow.md` explains how to keep upstream checkouts outside the main repository and run this toolkit against those external paths.
 
-### 7. End-to-End Synthetic Demo
+`docs/external_source_scan_example.md` records a local smoke-test pattern for scanning a real external scenario library path without committing upstream files.
+
+### 8. End-to-End Synthetic Demo
 
 `docs/demo_walkthrough.md` shows a complete synthetic workflow:
 
@@ -169,8 +182,8 @@ Third-party repositories, standards, schemas, scenario files, and simulator code
 - Methodology document under `docs/`.
 - Third-party integration boundary document under `third_party/`.
 - Upstream integration manifest and external checkout workflow documentation.
-- Python utilities for indexing, OpenSCENARIO parameter extraction, esmini dry-run planning, and result summary export.
-- Test execution, issue tracking, review, checklist, and regression templates.
+- Python utilities for indexing, OpenSCENARIO parameter extraction, XOSC validation, esmini dry-run or guarded execution, and result summary export.
+- Test execution, issue tracking, review, checklist, external source review, and regression templates.
 - Small synthetic example data under `examples/`.
 - Synthetic end-to-end demo artifacts and a sample summary report.
 - A minimal GitHub Actions workflow that validates Python syntax and runs the example workflow.
@@ -189,10 +202,25 @@ Extract OpenSCENARIO parameters:
 python3 tools/extract_xosc_params.py examples
 ```
 
+Validate OpenSCENARIO/XML well-formedness:
+
+```bash
+python3 tools/validate_xosc_schema.py --input examples
+```
+
 Generate an esmini dry-run plan:
 
 ```bash
 python3 tools/run_esmini_batch.py --input examples/example_scenario_list.csv --dry-run
+```
+
+Execute with esmini only after installing it separately:
+
+```bash
+python3 tools/run_esmini_batch.py \
+  --input examples/example_scenario_list.csv \
+  --esmini-path /path/to/esmini \
+  --execute
 ```
 
 Export a result summary:
@@ -213,7 +241,6 @@ cat docs/demo_walkthrough.md
 ## Future Extensions
 
 - Add richer OpenSCENARIO and OpenDRIVE metadata extraction.
-- Add schema validation hooks for ASAM OpenSCENARIO files.
 - Add adapter profiles for esmini, BeamNG.tech, and other simulation backends.
 - Add report templates aligned with specific internal test review gates.
 - Expand CI checks for template consistency and report schema validation.

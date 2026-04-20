@@ -96,6 +96,25 @@ Output:
 
 The extractor is intentionally lightweight. It reads XML metadata and does not validate scenario correctness.
 
+## Validate OpenSCENARIO/XML Files
+
+Run a basic XML well-formedness check:
+
+```bash
+python3 tools/validate_xosc_schema.py \
+  --input ../external-workspace/OSC-NCAP-scenarios
+```
+
+If you have an authorized local XSD schema file and optional `lxml` installed, run:
+
+```bash
+python3 tools/validate_xosc_schema.py \
+  --input ../external-workspace/OSC-NCAP-scenarios \
+  --schema /path/to/OpenSCENARIO.xsd
+```
+
+The toolkit does not redistribute ASAM schemas. Keep schema files outside this repository unless their license explicitly allows redistribution.
+
 ## Generate an esmini Dry-Run Plan
 
 If esmini is installed separately:
@@ -107,7 +126,18 @@ python3 tools/run_esmini_batch.py \
   --dry-run
 ```
 
-This creates a command plan only. The current toolkit does not execute esmini by default.
+This creates a command plan only. The toolkit does not execute esmini by default.
+
+To execute after installing esmini separately:
+
+```bash
+python3 tools/run_esmini_batch.py \
+  --input reports/scenario_index.csv \
+  --esmini-path ../external-workspace/esmini/bin/esmini \
+  --execute
+```
+
+Execution writes `reports/esmini_execution_summary.csv`, `reports/esmini_execution_summary.md`, and per-scenario log files. Use this only after verifying catalog paths, OpenDRIVE references, and simulator compatibility.
 
 ## Link External Scenarios to Mapping Rows
 

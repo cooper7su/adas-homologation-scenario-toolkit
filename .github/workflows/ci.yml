@@ -33,6 +33,7 @@ jobs:
           mkdir -p /tmp/adas_ci/scenario_index /tmp/adas_ci/result_summary
           python -B tools/build_scenario_index.py examples --output-dir /tmp/adas_ci/scenario_index
           python -B tools/extract_xosc_params.py examples --output /tmp/adas_ci/xosc_parameter_summary.csv
+          python -B tools/validate_xosc_schema.py --input examples --output-dir /tmp/adas_ci/validation
           python -B tools/run_esmini_batch.py \
             --input examples/example_scenario_list.csv \
             --dry-run \

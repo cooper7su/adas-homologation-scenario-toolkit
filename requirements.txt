@@ -1,2 +1,7 @@
 # Current tools use only the Python standard library.
 # Recommended Python version: 3.10 or newer.
+#
+# Optional:
+# - lxml can be installed by users who want XSD validation in
+#   tools/validate_xosc_schema.py. It is not required for the default
+#   XML well-formedness validation mode.
